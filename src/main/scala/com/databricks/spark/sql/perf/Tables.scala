@@ -239,7 +239,9 @@ abstract class Tables(sqlContext: SQLContext, scaleFactor: String,
       if (!tableExists || overwrite) {
         println(s"Creating external table $name in database $databaseName using data stored in $location.")
         log.info(s"Creating external table $name in database $databaseName using data stored in $location.")
-        sqlContext.createExternalTable(qualifiedTableName, location, format)
+        // sqlContext.createExternalTable(qualifiedTableName, location, format)
+        createTemporaryTable(location, format)
+        sqlContext.sql(s"CREATE TABLE $qualifiedTableName USING HIVE OPTIONS(FILEFORMAT '$format') AS SELECT * FROM $name")
       }
       if (partitionColumns.nonEmpty && discoverPartitions) {
         println(s"Discovering partitions for table $name.")
