@@ -237,7 +237,7 @@ abstract class Tables(sqlContext: SQLContext, scaleFactor: String,
         sqlContext.sql(s"DROP TABLE IF EXISTS $databaseName.$name")
       }
       if (!tableExists || overwrite) {
-        println(s"Creating external table $name in database $databaseName using data stored in $location.")
+        println(s"Creating external table $name in database $databaseName using data stored in $location with hive support.")
         log.info(s"Creating external table $name in database $databaseName using data stored in $location.")
         // sqlContext.createExternalTable(qualifiedTableName, location, format)
         createTemporaryTable(location, format)
